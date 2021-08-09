@@ -1,6 +1,29 @@
 server:
-  port: 8088
+  port: 8080
+  application:
+    name: snomate
+    
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://snomatewebservice.cfjc0qvlmfzd.ap-northeast-2.rds.amazonaws.com/snomate?useSSL=false&serverTimezone=Asia/Seoul&useUnicode=yes&characterEncoding=UTF-8
+    username: admin
+    password: Snomate12#$
+    initialization-mode: always
+    platform: snomate
+    hikari:
+      connection-timeout: 38800000
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate :
+        format_sql: false #true
+        jdbc.batch_size : 1000 #saveall 1000개같이 들어갈 수 있다 
+        order_insert : true
+        order_update : true
 
-logging:
-  level:
-    org.springframework: DEBUG
+#logging:
+#  level:
+#    org.springframework: DEBUG

@@ -1,4 +1,4 @@
-package com.example.snomate;
+package com.example.snomate.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,25 +1,29 @@
 package com.example.snomate.controller;
 
-import com.example.snomate.HelloWorldService;
-import com.example.snomate.model.HelloWorldBean;
+import com.example.snomate.model.Test;
+import com.example.snomate.repository.TestRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @RestController
-
 public class HelloWorldController {
-
 	@Autowired
-	HelloWorldService helloWorldService;
+	private TestRepository testRepository;
 
-	@GetMapping(path = "/hello-world")
-	public String helloWorld() {
-		List<HelloWorldBean> helloWorldBeans = helloWorldService.testService();
-		return "HelloWorld test";
+	
+	@GetMapping(path = "/test")
+	public List<Test> getTest() {
+		return testRepository.findAll();
+	}
+	
+	@PostMapping(path = "/save")
+	public Test save(@RequestBody Test test) {
+		return testRepository.save(test);
 	}
 }

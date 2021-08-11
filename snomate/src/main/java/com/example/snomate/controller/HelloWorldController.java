@@ -41,6 +41,11 @@ public class HelloWorldController {
 		return userRepository.findAll();
 	}
 	
+	@PostMapping(path = "/users")
+	public User saveUsers(@RequestBody User user) {
+		return userRepository.save(user);
+	}
+	
 	@GetMapping(path = "/projects")
 	public List<Project> getProjects(){
 		return projectRepository.findAll();

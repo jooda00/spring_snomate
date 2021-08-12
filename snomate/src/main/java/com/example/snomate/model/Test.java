@@ -23,4 +23,7 @@ public class Test {
 	
 	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "use_now")
+	private boolean useNow;
 }

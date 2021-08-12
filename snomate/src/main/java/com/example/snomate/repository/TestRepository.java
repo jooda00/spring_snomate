@@ -11,7 +11,7 @@ import com.example.snomate.model.Test;
 @Repository
 public interface TestRepository extends JpaRepository<Test,Long> {
 
-	List<Test> findById(long i);
+	Test findById(long i);
 	
 //	사용자 지정 네이티브 쿼리
 //	@Query(value = "SELECT * FROM test where~" , nativeQuery = true)

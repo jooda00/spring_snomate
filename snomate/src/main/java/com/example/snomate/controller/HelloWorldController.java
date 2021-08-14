@@ -8,6 +8,8 @@ import com.example.snomate.repository.TestRepository;
 import com.example.snomate.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class HelloWorldController {
@@ -51,6 +54,7 @@ public class HelloWorldController {
 	public Test updateTest(@RequestBody Test test) {
 		return testRepository.save(test);
 	}
+	
 	// delete
 	@DeleteMapping(path="/test/{id}")
 	public Test deleteTestFromId(@PathVariable("id") long id) {
@@ -59,7 +63,9 @@ public class HelloWorldController {
 		return testRepository.save(test);
 		//return test;
 	}
+
 	
+	// User
 	@GetMapping(path = "/users")
 	public List<User> getUsers(){
 		return userRepository.findAll();
@@ -69,13 +75,58 @@ public class HelloWorldController {
 		return userRepository.save(user);
 	}
 	
+//	@PutMapping(path = "/users/{id}")
+//	public Integer updateUser(@PathVariable int id, @RequestBody User user) {
+//		return userRepository.update(user.setTest();, id);
+//	}
+	
+
+	// Project
 	@GetMapping(path = "/projects")
 	public List<Project> getProjects(){
 		return projectRepository.findAll();
 	}
 	
+	// project id를 통해 받아오기
+	@GetMapping(path = "/projects/{pj_id}")
+	public Optional<Project> retrieveProject(@PathVariable int pj_id) {
+		return projectRepository.findById(pj_id);
+	}
+	
+	// project delete
+	/* @DeleteMapping(path = "/projects/{pj_id}")
+	public Integer deleteProjectFromId(@PathVariable int pj_id) {
+		projectRepository.deleteById(pj_id);
+		return pj_id;
+	} */
+	
+	// project insert
 	@PostMapping(path = "/projects")
 	public Project saveProject(@RequestBody Project project) {
 		return projectRepository.save(project);
 	}
+	
+	// project update -> 아직 수정 해야 할 것!
+    /* @PutMapping("/projects/{pj_id}")
+    public ResponseEntity<Project> updateProject(@PathVariable int pj_id, @RequestBody Project project) {
+    	Project p1 = projectRepository.findById(pj_id).orElseThrow(
+                () -> new NullPointerException("해당 프로젝트의 아이디가 존재하지 않습니다.")
+        );
+    	p1.setTitle(project.getTitle());
+    	p1.setPeriod(project.getPeriod());
+    	p1.setBody_text(project.getBody_text());
+    	p1.setBody_images(project.getBody_images());
+    	p1.setUrl_link(project.getUrl_link());
+    	p1.setIs_deleted(project.getIs_deleted());
+    	p1.setQuestion1(project.getQuestion1());
+    	p1.setAnswer1(project.getAnswer1());
+    	p1.setQuestion2(project.getQuestion2());
+    	p1.setAnswer2(project.getAnswer2());
+    	p1.setQuestion3(project.getQuestion3());
+    	p1.setAnswer3(project.getAnswer3());
+    	final Project updatedProject = projectRepository.save(p1);
+    	return ResponseEntity.ok(updatedProject); 
+    } */
+
+    
 }

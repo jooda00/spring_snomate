@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import com.example.snomate.model.Test;
 
 @Repository
-public interface TestRepository extends JpaRepository<Test,Long> {
+public interface TestRepository extends JpaRepository<Test, Integer> {
 
-	Test findById(long i);
+	Test findById(int i);
 	
 //	사용자 지정 네이티브 쿼리
 //	@Query(value = "SELECT * FROM test where~" , nativeQuery = true)

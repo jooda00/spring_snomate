@@ -1,0 +1,34 @@
+
+	@Autowired
+	private TestRepository testRepository;
+
+	// 예시2 - select
+	@GetMapping(path = "/test")
+	public List<Test> selectTest() {
+		return testRepository.findAll();
+	}
+	@GetMapping(path = "/test/{id}")
+	public Test selectTestFromId(@PathVariable("id") int id) {
+		return testRepository.findById(id);
+	}
+	@GetMapping(path="/user/{email}") // 만약 검색 타입이 String으로 겹칠 경우 /user/email/{email}, /user/name/{name}으로 분리할 수 있습니다.
+	public String userTest(@PathVariable("email") String email) {
+		return email;
+	}
+	// insert
+	@PostMapping(path = "/test")
+	public Test insertTest(@RequestBody Test test) {
+		return testRepository.save(test);
+	}
+	// update
+	@PutMapping(path = "/test")
+	public Test updateTest(@RequestBody Test test) {
+		return testRepository.save(test);
+	}
+	// delete
+	@DeleteMapping(path="/test/{id}")
+	public Test deleteTestFromId(@PathVariable("id") int id) {
+		Test test = testRepository.findById(id);
+		test.setUseNow(false);
+		return testRepository.save(test);
+	}

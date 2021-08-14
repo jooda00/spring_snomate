@@ -1,29 +1,30 @@
 package com.example.snomate.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "test")
-public class Test {
-	
+@Table(name = "sm_category_first")
+public class CategoryFirst {
+
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "name")
-	private String name;
-	
-	@Column(name = "use_now")
-	private boolean useNow;
+	@Column(name = "title")
+	private String title;
+
 }

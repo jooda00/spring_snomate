@@ -8,8 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,48 +19,44 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "snomate_project")
+@Table(name = "sm_project")
 public class Project {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer pj_id;
+	private int id;
+	
+	@Column(name = "user_id")
+	private String userId;
 	
 	@Column(name = "title")
 	private String title;
 	
-	@Temporal(TemporalType.DATE) // 일단 날짜만 받아오기
-	@Column(name = "period")
-	private Date period;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "start_date")
+	private Date stratDate;
 	
-	@Column(name = "body_text")
-	private String body_text;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "end_date")
+	private Date endDate;
 	
-	@Column(name = "body_images")
-	private String body_images;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "project_start_date")
+	private Date projectStratDate;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "project_end_date")
+	private Date projectEndDate;
+	
+	@Column(name = "body")
+	private String body;
 	
 	@Column(name = "url_link")
-	private String url_link;
+	private String urlLink;
 	
-	@Column(name = "is_deleted")
-	private Integer is_deleted;
+	@Column(name = "body_images")
+	private String bodyImages;
 	
-	@Column(name = "question1")
-	private String question1;
-	
-	@Column(name = "answer1")
-	private String answer1;
-	
-	@Column(name = "question2")
-	private String question2;
-	
-	@Column(name = "answer2")
-	private String answer2;
-	
-	@Column(name = "question3")
-	private String question3;
-	
-	@Column(name = "answer3")
-	private String answer3;
-	
+	@Column(name = "now_use")
+	private boolean nowUse;
 }

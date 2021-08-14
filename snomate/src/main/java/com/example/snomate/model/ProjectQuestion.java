@@ -26,24 +26,24 @@ public class ProjectQuestion {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "project_id")
-	private int proejctId;
+	@Column(name = "user_id")
+	private int userId;
 	
-	@Column(name = "project_num")
-	private int proejctNum;
+	@Column(name = "project_id")
+	private int projectId;
 	
 	@Column(name = "question_id")
 	private int questionId;
 	
-	@Column(name = "qeustion")
-	private String qeustion;
+	@Column(name = "question")
+	private String question;
 	
 	@Column(name = "answer")
 	private String answer;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "qeustion_date")
-	private Date qeustionDate;
+	@Column(name = "question_date")
+	private Date questionDate;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "answer_date")

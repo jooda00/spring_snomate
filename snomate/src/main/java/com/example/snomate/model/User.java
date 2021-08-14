@@ -48,6 +48,6 @@ public class User {
 	@Column(name = "now_use")
 	private boolean nowUse;
 	
-	@Transient
-	private List<UserLike> userLike = null;
+//	@Transient
+//	private List<UserLike> userLike = null;
 }

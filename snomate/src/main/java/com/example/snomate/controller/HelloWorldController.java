@@ -49,6 +49,7 @@ public class HelloWorldController {
 	public Test insertTest(@RequestBody Test test) {
 		return testRepository.save(test);
 	}
+	
 	// update
 	@PutMapping(path = "/test")
 	public Test updateTest(@RequestBody Test test) {

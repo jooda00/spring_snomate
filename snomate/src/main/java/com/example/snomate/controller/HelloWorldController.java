@@ -1,12 +1,14 @@
 package com.example.snomate.controller;
 
 import com.example.snomate.model.CategoryFirst;
+import com.example.snomate.model.CategorySecond;
 import com.example.snomate.model.Project;
 import com.example.snomate.model.ProjectQuestion;
 import com.example.snomate.model.Test;
 import com.example.snomate.model.User;
 import com.example.snomate.model.UserLike;
 import com.example.snomate.repository.CategoryFirstRepository;
+import com.example.snomate.repository.CategorySecondRepository;
 import com.example.snomate.repository.ProjectQuestionRepository;
 import com.example.snomate.repository.ProjectRepository;
 import com.example.snomate.repository.TestRepository;
@@ -26,13 +28,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class HelloWorldController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
@@ -41,8 +43,10 @@ public class HelloWorldController {
 	private ProjectQuestionRepository projectQuestionRepository;
 	@Autowired
 	private UserLikeRepository userLikeRepository;
-	
-	
+	@Autowired
+	private CategoryFirstRepository categoryFirstRepository;
+	@Autowired
+	private CategorySecondRepository categorySecondRepository;
 
 //	@GetMapping(path = "/users")
 //	public List<User> getUsers(){
@@ -104,6 +108,7 @@ public class HelloWorldController {
 		return project;
 	}
 	
+	
 	@PostMapping(path = "/project")
 	public Project saveProject(@RequestBody Project project) {
 		project.setStratDate(new Date());
@@ -124,11 +129,32 @@ public class HelloWorldController {
 		//return userLike;
 	}
 	
+	// Category1
+	@GetMapping(path = "/category/{id}")
+	public CategoryFirst getCategoryFirst(@PathVariable("id") int id){
+		CategoryFirst categoryFirst = categoryFirstRepository.findById(id);
+		List<CategorySecond> returnCategory = categorySecondRepository.findByCategorySeconds(id);
+		categoryFirst.setCategorySecond(returnCategory);
+		return categoryFirst;
+	}
 	
-//	@Autowired
-//	private CategoryFirstRepository categoryFirstRepository;
-//	@GetMapping(path = "/category/first")
-//	public List<CategoryFirst> getUsers(){
-//		return categoryFirstRepository.findAll();
+	
+	
+	// CategorySecond
+	@GetMapping(path = "/category")
+	public List<CategorySecond> getCategorySecond(){
+		return categorySecondRepository.findAll();
+	}
+	
+	@PostMapping(path = "/category")
+	public CategorySecond saveCategorySecond(@RequestBody CategorySecond categorySecond) {
+		return categorySecondRepository.save(categorySecond);
+	}
+	
+//	@GetMapping(path = "/category/{firstId}")
+//	public List<CategorySecond> getCategorySecondByID(@PathVariable int firstId) {
+//		List<CategorySecond> returnList = categorySecondRepository.findByCategorySeconds(firstId);
+//		return returnList;
 //	}
+
 }

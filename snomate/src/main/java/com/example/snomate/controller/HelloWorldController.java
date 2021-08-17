@@ -2,15 +2,15 @@ package com.example.snomate.controller;
 
 import com.example.snomate.model.CategoryFirst;
 import com.example.snomate.model.CategorySecond;
-import com.example.snomate.model.Project;
-import com.example.snomate.model.ProjectQuestion;
+import com.example.snomate.model.Article;
+import com.example.snomate.model.ArticleQuestion;
 import com.example.snomate.model.Test;
 import com.example.snomate.model.User;
 import com.example.snomate.model.UserLike;
 import com.example.snomate.repository.CategoryFirstRepository;
 import com.example.snomate.repository.CategorySecondRepository;
-import com.example.snomate.repository.ProjectQuestionRepository;
-import com.example.snomate.repository.ProjectRepository;
+import com.example.snomate.repository.ArticleQuestionRepository;
+import com.example.snomate.repository.ArticleRepository;
 import com.example.snomate.repository.TestRepository;
 import com.example.snomate.repository.UserLikeRepository;
 import com.example.snomate.repository.UserRepository;
@@ -38,9 +38,9 @@ public class HelloWorldController {
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
-	private ProjectRepository projectRepository;
+	private ArticleRepository articleRepository;
 	@Autowired
-	private ProjectQuestionRepository projectQuestionRepository;
+	private ArticleQuestionRepository articleQuestionRepository;
 	@Autowired
 	private UserLikeRepository userLikeRepository;
 	@Autowired
@@ -48,10 +48,10 @@ public class HelloWorldController {
 	@Autowired
 	private CategorySecondRepository categorySecondRepository;
 
-//	@GetMapping(path = "/users")
-//	public List<User> getUsers(){
-//		return userRepository.findAll();
-//	}
+	@GetMapping(path = "/users")
+	public List<User> getUsers(){
+		return userRepository.findAll();
+	}
 	
 	@GetMapping(path = "/user/{id}")
 	public User getUser(@PathVariable("id") int id){
@@ -74,17 +74,17 @@ public class HelloWorldController {
 //		return projectRepository.findAll();
 //	}
 	
-	@GetMapping(path = "/project/{id}")
-	public Project getProject(@PathVariable("id") int pId){
-		Project project = projectRepository.findById(pId);
-		List<ProjectQuestion> returnQuestion = new ArrayList<ProjectQuestion>();
-		List<ProjectQuestion> projectQuestion = projectQuestionRepository.findByProjectId1(pId, 0);
+	@GetMapping(path = "/article/{id}")
+	public Article getProject(@PathVariable("id") int pId){
+		Article project = articleRepository.findById(pId);
+		List<ArticleQuestion> returnQuestion = new ArrayList<ArticleQuestion>();
+		List<ArticleQuestion> projectQuestion = articleQuestionRepository.findByProjectId1(pId, 0);
 		
 		while(!projectQuestion.isEmpty()) {
 			returnQuestion.addAll(projectQuestion);
 			int qId = projectQuestion.get(0).getId();
-			returnQuestion.addAll(projectQuestionRepository.findByProjectId2(pId, qId));
-			projectQuestion = projectQuestionRepository.findByProjectId1(pId, qId);
+			returnQuestion.addAll(articleQuestionRepository.findByProjectId2(pId, qId));
+			projectQuestion = articleQuestionRepository.findByProjectId1(pId, qId);
 		}
 		
 		
@@ -109,17 +109,17 @@ public class HelloWorldController {
 	}
 	
 	
-	@PostMapping(path = "/project")
-	public Project saveProject(@RequestBody Project project) {
+	@PostMapping(path = "/article")
+	public Article saveProject(@RequestBody Article project) {
 		project.setStratDate(new Date());
 		project.setNowUse(true);
-		return projectRepository.save(project);
+		return articleRepository.save(project);
 	}
 	
 	@PostMapping(path = "/question")
-	public ProjectQuestion saveQuestion(@RequestBody ProjectQuestion question) {
+	public ArticleQuestion saveQuestion(@RequestBody ArticleQuestion question) {
 		question.setQuestionDate(new Date());
-		return projectQuestionRepository.save(question);
+		return articleQuestionRepository.save(question);
 	}
 	
 	@PostMapping(path = "/like/{uId}/{pId}")

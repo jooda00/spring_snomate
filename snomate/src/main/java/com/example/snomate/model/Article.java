@@ -39,7 +39,11 @@ public class Article {
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "start_date")
-	private Date stratDate;
+	private Date startDate;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "update_date")
+	private Date updateDate;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "end_date")

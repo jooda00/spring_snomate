@@ -14,9 +14,9 @@ public interface ArticleQuestionRepository extends JpaRepository<ArticleQuestion
 
 	List<ArticleQuestion> findByArticleId(int articleId);
 
-	@Query(value = "select * from sm_article_question where article_id = :pId and id > :qId and question_id = 0 order by question_date asc limit 1" , nativeQuery = true)
-	List<ArticleQuestion> findByArticleId1(int pId, int qId);
+	@Query(value = "select * from sm_article_question where article_id = :aId and id > :qId and question_id = 0 order by question_date asc limit 1" , nativeQuery = true)
+	List<ArticleQuestion> findByArticleId1(int aId, int qId);
 
-	@Query(value = "select * from sm_article_question where article_id = :pId and question_id = :qId order by question_date asc" , nativeQuery = true)
-	List<ArticleQuestion> findByArticleId2(int pId, int qId);
+	@Query(value = "select * from sm_article_question where article_id = :aId and question_id = :qId order by question_date asc" , nativeQuery = true)
+	List<ArticleQuestion> findByArticleId2(int aId, int qId);
 }

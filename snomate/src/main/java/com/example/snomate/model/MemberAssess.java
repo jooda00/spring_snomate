@@ -1,7 +1,6 @@
 package com.example.snomate.model;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,9 +19,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "sm_contact")
-public class Contact {
-
+@Table(name = "sm_member_assess")
+public class MemberAssess {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -33,23 +31,28 @@ public class Contact {
 	@Column(name = "user_id")
 	private int userId;
 	
-	@Column(name = "message")
-	private String message;
+	@Column(name = "member_id")
+	private int memberId;
 	
-	@Column(name = "is_contact")
-	private boolean isContact;
+	@Column(name = "assess_hardworking")
+	private float assessHardworking;
 	
-	@Column(name = "is_done")
-	private boolean isDone;
+	@Column(name = "assess_ability")
+	private float assessAbility;
+	
+	@Column(name = "assess_leadership")
+	private float assessLeadership;
+	
+	@Column(name = "assess_communication")
+	private float assessCommunication;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "request_date")
-	private Date requestDate;
+	@Column(name = "assess_date")
+	private Date assessDate;
+	
+	//assesscheck
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "response_date")
-	private Date responseDate;
-	
-	@Column(name = "reply")
-	private String reply;
+	@Column(name = "update_date")
+	private Date updateDate;
 }

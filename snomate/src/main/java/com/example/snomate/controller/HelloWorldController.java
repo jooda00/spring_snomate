@@ -78,13 +78,13 @@ public class HelloWorldController {
 	public Article getProject(@PathVariable("id") int pId){
 		Article project = articleRepository.findById(pId);
 		List<ArticleQuestion> returnQuestion = new ArrayList<ArticleQuestion>();
-		List<ArticleQuestion> projectQuestion = articleQuestionRepository.findByProjectId1(pId, 0);
+		List<ArticleQuestion> projectQuestion = articleQuestionRepository.findByArticleId1(pId, 0);
 		
 		while(!projectQuestion.isEmpty()) {
 			returnQuestion.addAll(projectQuestion);
 			int qId = projectQuestion.get(0).getId();
-			returnQuestion.addAll(articleQuestionRepository.findByProjectId2(pId, qId));
-			projectQuestion = articleQuestionRepository.findByProjectId1(pId, qId);
+			returnQuestion.addAll(articleQuestionRepository.findByArticleId2(pId, qId));
+			projectQuestion = articleQuestionRepository.findByArticleId1(pId, qId);
 		}
 		
 		
@@ -104,7 +104,7 @@ public class HelloWorldController {
 //			}
 //		}
 //		
-		project.setProjectQuestion(returnQuestion);
+		project.setArticleQuestions(returnQuestion);
 		return project;
 	}
 	

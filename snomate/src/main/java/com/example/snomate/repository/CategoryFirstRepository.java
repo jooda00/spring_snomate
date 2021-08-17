@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.snomate.model.CategoryFirst;
-import com.example.snomate.model.Project;
+import com.example.snomate.model.Article;
 
 @Repository
 public interface CategoryFirstRepository extends JpaRepository<CategoryFirst, Integer>{

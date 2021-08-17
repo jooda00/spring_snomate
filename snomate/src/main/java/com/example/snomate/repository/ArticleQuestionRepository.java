@@ -12,11 +12,11 @@ import com.example.snomate.model.ArticleQuestion;
 public interface ArticleQuestionRepository extends JpaRepository<ArticleQuestion, Integer> {
 	ArticleQuestion findById(int i);
 
-	List<ArticleQuestion> findByProjectId(int projectId);
+	List<ArticleQuestion> findByArticleId(int articleId);
 
-	@Query(value = "select * from sm_article_question where article = :pId and id > :qId and question_id = 0 order by question_date asc limit 1" , nativeQuery = true)
-	List<ArticleQuestion> findByProjectId1(int pId, int qId);
+	@Query(value = "select * from sm_article_question where article_id = :pId and id > :qId and question_id = 0 order by question_date asc limit 1" , nativeQuery = true)
+	List<ArticleQuestion> findByArticleId1(int pId, int qId);
 
-	@Query(value = "select * from sm__question where article = :pId and question_id = :qId order by question_date asc" , nativeQuery = true)
-	List<ArticleQuestion> findByProjectId2(int pId, int qId);
+	@Query(value = "select * from sm_article_question where article_id = :pId and question_id = :qId order by question_date asc" , nativeQuery = true)
+	List<ArticleQuestion> findByArticleId2(int pId, int qId);
 }

@@ -66,5 +66,5 @@ public class Article {
 	private boolean nowUse;
 	
 	@Transient
-	private List<ArticleQuestion> projectQuestion = null;
+	private List<ArticleQuestion> articleQuestions = null;
 }

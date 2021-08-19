@@ -136,6 +136,9 @@ public class HelloWorldController {
 		return articleQuestionRepository.save(question);
 	}
 	
+	
+	// Contact
+	
 	// 멤버 컨택
 	@PostMapping(path = "/contact")
 	public Contact insertContact(@RequestBody Contact contact) {
@@ -152,6 +155,14 @@ public class HelloWorldController {
 		return contactRepository.save(contact);
 	}
 	
+	// 나의 컨택 봄
+	@GetMapping(path = "/contact/{id}")
+	public List<Contact> selectContact(@PathVariable("id") int uId){
+		return contactRepository.findByUserId(uId);
+	}
+	
+	// Assess
+	
 	// 조원평가
 	@PostMapping(path = "/assess")
 	public MemberAssess insertMemberAssess(@RequestBody MemberAssess assess) {
@@ -161,6 +172,14 @@ public class HelloWorldController {
 		user.setTemperature(user.getTemperature() + assess.getAssessAbility() + assess.getAssessCommunication() + assess.getAssessHardworking() + assess.getAssessLeadership());
 		userRepository.save(user);
 		return memberAssessRepository.save(assess);
+	}
+	
+	// 나의 평가(온도)보기
+	@GetMapping(path = "/assess/{id}")
+	public Float selectTemp(@PathVariable("id") int id) {
+		User user = userRepository.findById(id);
+		Float temperature = user.getTemperature();
+		return temperature;
 	}
 	
 	
@@ -223,7 +242,9 @@ public class HelloWorldController {
 		return userLikeRepository.findByUserId(uId);
 	}
 	
-	// Category1
+	// Category(얘는 나중에)
+	
+	// 카테고리1(대주제)별로 딸린 카테고리2(소주제들)보기
 	@GetMapping(path = "/category/{id}")
 	public CategoryFirst getCategoryFirst(@PathVariable("id") int id){
 		CategoryFirst categoryFirst = categoryFirstRepository.findById(id);
@@ -232,18 +253,17 @@ public class HelloWorldController {
 		return categoryFirst;
 	}
 	
-	
-	
 	// CategorySecond
 	@GetMapping(path = "/category")
 	public List<CategorySecond> getCategorySecond(){
 		return categorySecondRepository.findAll();
 	}
 	
-	@PostMapping(path = "/category")
-	public CategorySecond insertCategorySecond(@RequestBody CategorySecond categorySecond) {
-		return categorySecondRepository.save(categorySecond);
-	}
+	// 카테고리2(소주제) 추가
+//	@PostMapping(path = "/category")
+//	public CategorySecond insertCategorySecond(@RequestBody CategorySecond categorySecond) {
+//		return categorySecondRepository.save(categorySecond);
+//	}
 	
 //	@GetMapping(path = "/category/{firstId}")
 //	public List<CategorySecond> getCategorySecondByID(@PathVariable int firstId) {

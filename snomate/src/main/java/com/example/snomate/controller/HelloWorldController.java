@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class HelloWorldController {
 	
@@ -66,7 +67,6 @@ public class HelloWorldController {
 	
 	// 특정 게시물
 	
-	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(path = "/article/{id}")
 	public Article selectArticle(@PathVariable("id") int aId){
 		Article article = articleRepository.findById(aId);
@@ -184,8 +184,54 @@ public class HelloWorldController {
 		return temperature;
 	}
 	
+	// user menu
+
+	@GetMapping(path = "/users")
+	public List<User> getUsers(){
+		return userRepository.findAll();
+	}
 	
-	// login
+	@GetMapping(path = "/user/{id}")
+	public User getUser(@PathVariable("id") int id){
+		User user = userRepository.findById(id);
+		user.setUserPassword(null);
+		return user;
+	}
+	
+	// 회원가입
+	@PostMapping(path = "/user")
+	public int insertUsers(@RequestBody User user) {
+		User tmp = userRepository.findByUserEmail(user.getUserEmail());
+		if(tmp == null) {
+			user.setUserPassword(passwordEncoder.encode(user.getUserPassword()).toString());
+			user.setJoinDate(new Date());
+			user.setTemperature(36.5F);
+			user.setNowUse(true);
+			userRepository.save(user);
+			return 0;
+		}else {
+			return 1;
+		}
+	}
+	
+	// 로그인
+	@PostMapping(path = "/login")
+	public int insertUsers(@RequestBody Map<String, String> tmp) {
+		User user = userRepository.findByUserEmail(tmp.get("userEmail"));
+		
+		if (user == null) {
+			return 2;
+		}else {
+		
+			if(passwordEncoder.matches(tmp.get("userPassword"), user.getUserPassword())) {
+				user.setLastLoginDate(new Date());
+				userRepository.save(user);
+				return 0;
+			}else {
+				return 1;
+			}
+		}
+	}
 	
 	// 비밀번호 수정
 	@PostMapping(path = "/password/{id}")
@@ -203,31 +249,6 @@ public class HelloWorldController {
 		}else {
 			return "현재 비밀번호가 일치하지 않습니다.";
 		}
-	}
-	
-	
-	
-	// user menu
-	
-
-	@GetMapping(path = "/users")
-	public List<User> getUsers(){
-		return userRepository.findAll();
-	}
-	
-	@GetMapping(path = "/user/{id}")
-	public User getUser(@PathVariable("id") int id){
-		User user = userRepository.findById(id);
-		user.setUserPassword(null);
-		return user;
-	}
-	
-	@PostMapping(path = "/user")
-	public User insertUsers(@RequestBody User user) {
-		user.setUserPassword(passwordEncoder.encode(user.getUserPassword()).toString());
-		user.setJoinDate(new Date());
-		user.setNowUse(true);
-		return userRepository.save(user);
 	}
 	
 	// 즐겨찾기

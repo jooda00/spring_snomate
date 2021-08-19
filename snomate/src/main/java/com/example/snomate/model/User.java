@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
@@ -37,6 +39,15 @@ public class User {
 	@Column(name = "user_name")
 	private String userName;
 	
+	@Column(name = "user_nickname")
+	private String userNickname;
+	
+	@Column(name = "user_phone_number")
+	private String userPhoneNumber;
+	
+	@Column(name = "user_student_id")
+	private String userStudentId;
+	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "join_date")
 	private Date joinDate;
@@ -50,7 +61,4 @@ public class User {
 	
 	@Column(name = "temperature")
 	private float temperature;
-	
-//	@Transient
-//	private List<UserLike> userLike = null;
 }

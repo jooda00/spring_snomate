@@ -8,4 +8,6 @@ import com.example.snomate.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
 	User findById(int i);
+
+	User findByUserEmail(String string);
 }

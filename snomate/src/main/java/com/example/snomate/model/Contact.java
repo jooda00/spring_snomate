@@ -56,7 +56,4 @@ public class Contact {
 	
 	@Column(name = "reply")
 	private String reply;
-
-	@Column(name = "title")
-	private String title;
 }

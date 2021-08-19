@@ -19,4 +19,7 @@ public interface ArticleQuestionRepository extends JpaRepository<ArticleQuestion
 
 	@Query(value = "select * from sm_article_question where article_id = :aId and question_id = :qId order by question_date asc" , nativeQuery = true)
 	List<ArticleQuestion> findByArticleId2(int aId, int qId);
+
+	@Query(value = "select title from sm_article where id = :aId" , nativeQuery = true)
+	String findTitleById(int aId);
 }

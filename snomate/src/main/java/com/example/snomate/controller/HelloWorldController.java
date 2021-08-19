@@ -7,6 +7,7 @@ import com.example.snomate.model.MemberAssess;
 import com.example.snomate.model.ArticlePreview;
 import com.example.snomate.model.Alarm;
 import com.example.snomate.model.Article;
+import com.example.snomate.model.ArticleMember;
 import com.example.snomate.model.ArticleQuestion;
 import com.example.snomate.model.Test;
 import com.example.snomate.model.User;
@@ -16,6 +17,7 @@ import com.example.snomate.repository.CategorySecondRepository;
 import com.example.snomate.repository.ContactRepository;
 import com.example.snomate.repository.MemberAssessRepository;
 import com.example.snomate.repository.AlarmRepository;
+import com.example.snomate.repository.ArticleMemberRepository;
 import com.example.snomate.repository.ArticlePreviewRepository;
 import com.example.snomate.repository.ArticleQuestionRepository;
 import com.example.snomate.repository.ArticleRepository;
@@ -66,6 +68,8 @@ public class HelloWorldController {
 	private ContactRepository contactRepository;
 	@Autowired
 	private AlarmRepository alramRepository;
+	@Autowired
+	private ArticleMemberRepository articleMemberRepository;
 	
 	// article crud
 	
@@ -112,7 +116,11 @@ public class HelloWorldController {
 		article.setStartDate(new Date());
 		article.setUpdateDate(new Date());
 		article.setNowUse(true);
-		return articleRepository.save(article);
+		
+		article = articleRepository.save(article);
+		articleMemberRepository.save(new ArticleMember(article.getId(), article.getUserId(), true));
+		
+		return article;
 	}
 	
 	// 게시글 수정
@@ -140,13 +148,42 @@ public class HelloWorldController {
 	@PostMapping(path = "/question")
 	public ArticleQuestion insertQuestion(@RequestBody ArticleQuestion question) {
 		question.setQuestionDate(new Date());
-		return articleQuestionRepository.save(question);
+		
+		String str = articleQuestionRepository.findTitleById(question.getArticleId());
+		if (str != null) {
+			if (str.length() > 10) {
+				str = str.substring(0,10) + "...";
+			}
+		}else {
+			// 넣어야 하나?
+		}
+		question = articleQuestionRepository.save(question);
+		alramRepository.save(new Alarm(question.getUserResponseId(), "질문", "\"" + str + "\"에 질문이 달렸어요!", "", new Date()));
+		
+		return question;
 	}
 	
 	@PutMapping(path = "/question")
 	public ArticleQuestion updateQuestion(@RequestBody ArticleQuestion question) {
 		question.setAnswerDate(new Date());
-		return articleQuestionRepository.save(question);
+		
+		String str = articleQuestionRepository.findTitleById(question.getArticleId());
+		if (str != null) {
+			if (str.length() > 10) {
+				str = str.substring(0,10) + "...";
+			}
+		}else {
+			// 넣어야 하나?
+		}
+		question = articleQuestionRepository.save(question);
+		alramRepository.save(new Alarm(question.getUserRequestId(), "답변", "\"" + str + "\"에 답변이 달렸어요!", "", new Date()));
+		
+		return question;
+	}
+	
+	@GetMapping(path = "/question")
+	public List<ArticleQuestion> selectQuestion() {
+		return articleQuestionRepository.findAll();
 	}
 	
 	
@@ -159,7 +196,7 @@ public class HelloWorldController {
 		contact.setDone(false);
 		contact.setRequestDate(new Date());
 		
-		String str = contact.getTitle();
+		String str = articleQuestionRepository.findTitleById(contact.getArticleId());
 		if (str != null) {
 			if (str.length() > 10) {
 				str = str.substring(0,10) + "...";
@@ -167,9 +204,11 @@ public class HelloWorldController {
 		}else {
 			// 넣어야 하나?
 		}
+		
+		contact = contactRepository.save(contact);
 		alramRepository.save(new Alarm(contact.getUserResponseId(), "컨텍 요청", "\"" + str + "\"에 컨텍 요청이 들어왔어요!", "", new Date()));
 		
-		return contactRepository.save(contact);
+		return contact;
 	}
 	
 	// 컨텍 피드백
@@ -178,7 +217,7 @@ public class HelloWorldController {
 		contact.setResponseDate(new Date());
 		contact.setDone(true);
 		
-		String str = contact.getTitle();
+		String str = articleQuestionRepository.findTitleById(contact.getArticleId());
 		if (str != null) {
 			if (str.length() > 10) {
 				str = str.substring(0,10) + "...";
@@ -186,9 +225,14 @@ public class HelloWorldController {
 		}else {
 			// 넣어야 하나?
 		}
+		contact = contactRepository.save(contact);
 		alramRepository.save(new Alarm(contact.getUserRequestId(), "컨텍 답변", "\"" + str + "\"에 보낸 컨텍에 답변이 도착했어요!", "", new Date()));
 		
-		return contactRepository.save(contact);
+		if(contact.isContact()) {
+			articleMemberRepository.save(new ArticleMember(contact.getArticleId(), contact.getUserRequestId(), false));
+		}
+		
+		return contact;
 	}
 	
 	// 나의 컨택 봄

@@ -26,8 +26,11 @@ public class ArticleQuestion {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "user_id")
-	private int userId;
+	@Column(name = "user_request_id")
+	private int userRequestId;
+	
+	@Column(name = "user_response_Id")
+	private int userResponseId;
 	
 	@Column(name = "article_id")
 	private int articleId;

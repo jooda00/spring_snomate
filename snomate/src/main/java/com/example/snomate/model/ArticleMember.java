@@ -23,6 +23,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "sm_article_member")
 public class ArticleMember {
 	
+	public ArticleMember(int articleId, int userId, boolean isBoss) {
+		this.articleId = articleId;
+		this.userId = userId;
+		this.isBoss = isBoss;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

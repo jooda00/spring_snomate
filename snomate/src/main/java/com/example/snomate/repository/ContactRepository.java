@@ -10,8 +10,8 @@ import com.example.snomate.model.Contact;
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Integer> {
 
-	//List<Contact> findByUserIdOrderByUpdateDateDesc(int uId);
+	List<Contact> findByUserRequestId(int urId);
 
-	List<Contact> findByUserId(int uId);
+	List<Contact> findByUserResponseId(int usId);
 
 }

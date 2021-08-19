@@ -5,6 +5,7 @@ import com.example.snomate.model.CategorySecond;
 import com.example.snomate.model.Contact;
 import com.example.snomate.model.MemberAssess;
 import com.example.snomate.model.ArticlePreview;
+import com.example.snomate.model.Alarm;
 import com.example.snomate.model.Article;
 import com.example.snomate.model.ArticleQuestion;
 import com.example.snomate.model.Test;
@@ -14,6 +15,7 @@ import com.example.snomate.repository.CategoryFirstRepository;
 import com.example.snomate.repository.CategorySecondRepository;
 import com.example.snomate.repository.ContactRepository;
 import com.example.snomate.repository.MemberAssessRepository;
+import com.example.snomate.repository.AlarmRepository;
 import com.example.snomate.repository.ArticlePreviewRepository;
 import com.example.snomate.repository.ArticleQuestionRepository;
 import com.example.snomate.repository.ArticleRepository;
@@ -62,6 +64,8 @@ public class HelloWorldController {
 	private MemberAssessRepository memberAssessRepository;
 	@Autowired
 	private ContactRepository contactRepository;
+	@Autowired
+	private AlarmRepository alramRepository;
 	
 	// article crud
 	
@@ -119,7 +123,14 @@ public class HelloWorldController {
 		return articleRepository.save(article);
 	}
 	
-	@DeleteMapping(path = "/article/{id}")
+//	@DeleteMapping(path = "/article/{id}")
+//	public Article deleteArticle(@PathVariable("id") int aId) {
+//		Article article = articleRepository.findById(aId);
+//		article.setNowUse(false);
+//		return articleRepository.save(article);
+//	}
+	
+	@GetMapping(path = "/delete/article/{id}")
 	public Article deleteArticle(@PathVariable("id") int aId) {
 		Article article = articleRepository.findById(aId);
 		article.setNowUse(false);
@@ -147,6 +158,17 @@ public class HelloWorldController {
 		contact.setContact(false);
 		contact.setDone(false);
 		contact.setRequestDate(new Date());
+		
+		String str = contact.getTitle();
+		if (str != null) {
+			if (str.length() > 10) {
+				str = str.substring(0,10) + "...";
+			}
+		}else {
+			// 넣어야 하나?
+		}
+		alramRepository.save(new Alarm(contact.getUserResponseId(), "컨텍 요청", "\"" + str + "\"에 컨텍 요청이 들어왔어요!", "", new Date()));
+		
 		return contactRepository.save(contact);
 	}
 	
@@ -154,13 +176,29 @@ public class HelloWorldController {
 	@PutMapping(path = "/contact")
 	public Contact updateContact(@RequestBody Contact contact) {
 		contact.setResponseDate(new Date());
+		contact.setDone(true);
+		
+		String str = contact.getTitle();
+		if (str != null) {
+			if (str.length() > 10) {
+				str = str.substring(0,10) + "...";
+			}
+		}else {
+			// 넣어야 하나?
+		}
+		alramRepository.save(new Alarm(contact.getUserRequestId(), "컨텍 답변", "\"" + str + "\"에 보낸 컨텍에 답변이 도착했어요!", "", new Date()));
+		
 		return contactRepository.save(contact);
 	}
 	
 	// 나의 컨택 봄
-	@GetMapping(path = "/contact/{id}")
-	public List<Contact> selectContact(@PathVariable("id") int uId){
-		return contactRepository.findByUserId(uId);
+	@GetMapping(path = "/contact/request/{id}")
+	public List<Contact> selectRequestContact(@PathVariable("id") int urId){
+		return contactRepository.findByUserRequestId(urId);
+	}
+	@GetMapping(path = "/contact/response/{id}")
+	public List<Contact> selectResponseContact(@PathVariable("id") int usId){
+		return contactRepository.findByUserResponseId(usId);
 	}
 	
 	// Assess

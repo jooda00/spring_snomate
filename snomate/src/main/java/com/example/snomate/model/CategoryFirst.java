@@ -30,7 +30,6 @@ public class CategoryFirst {
 	@Column(name = "title")
 	private String title;
 
-
 	@Transient
 	private List<CategorySecond> categorySecond = null;
 }

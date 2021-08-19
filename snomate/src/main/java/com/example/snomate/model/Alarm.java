@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -21,42 +20,41 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "sm_contact")
-public class Contact {
+@Table(name = "sm_alarm")
+public class Alarm {
+	
+	public Alarm(int userId, String title, String body, String url, Date createDate) {
+		this.userId = userId;
+		this.title = title;
+		this.body = body;
+		this.url = url;
+		this.createDate = createDate;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "article_id")
-	private int articleId;
+	@Column(name = "user_id")
+	private int userId;
 	
-	@Column(name = "user_request_id")
-	private int userRequestId;
-	
-	@Column(name = "user_response_id")
-	private int userResponseId;
-	
-	@Column(name = "message")
-	private String message;
-	
-	@Column(name = "is_contact")
-	private boolean isContact;
-	
-	@Column(name = "is_done")
-	private boolean isDone;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "request_date")
-	private Date requestDate;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "response_date")
-	private Date responseDate;
-	
-	@Column(name = "reply")
-	private String reply;
-
 	@Column(name = "title")
 	private String title;
+	
+	@Column(name = "body")
+	private String body;
+	
+	@Column(name = "url")
+	private String url;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "create_date")
+	private Date createDate;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "check_date")
+	private Date checkDate;
+	
+	@Column(name = "is_checked")
+	private boolean isChecked;
 }

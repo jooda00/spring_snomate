@@ -298,19 +298,22 @@ public class HelloWorldController {
 	
 	// 로그인
 	@PostMapping(path = "/login")
-	public int insertUsers(@RequestBody Map<String, String> tmp) {
+	public Object insertUsers(@RequestBody Map<String, String> tmp) {
 		User user = userRepository.findByUserEmail(tmp.get("userEmail"));
 		
 		if (user == null) {
-			return 2;
+			user.setId(0);
+			return user;	// 없는 아이디
 		}else {
 		
 			if(passwordEncoder.matches(tmp.get("userPassword"), user.getUserPassword())) {
 				user.setLastLoginDate(new Date());
-				userRepository.save(user);
-				return 0;
+				user = userRepository.save(user);
+				user.setUserPassword(null);
+				return user;
 			}else {
-				return 1;
+				user.setId(-1);
+				return user; //비밀번호 틀린거
 			}
 		}
 	}

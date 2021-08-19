@@ -23,6 +23,7 @@ import com.example.snomate.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,10 +62,11 @@ public class HelloWorldController {
 	@Autowired
 	private ContactRepository contactRepository;
 	
-	
 	// article crud
 	
 	// 특정 게시물
+	
+	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(path = "/article/{id}")
 	public Article selectArticle(@PathVariable("id") int aId){
 		Article article = articleRepository.findById(aId);

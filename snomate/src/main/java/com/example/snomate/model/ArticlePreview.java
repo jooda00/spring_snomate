@@ -44,6 +44,9 @@ public class ArticlePreview {
 	@Column(name = "title")
 	private String title;
 	
+	@Column(name="body")
+	private String body;
+	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "update_date")
 	private Date updateDate;
